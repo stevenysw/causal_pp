@@ -1,5 +1,5 @@
 # Citation
-Steven Siwei Ye, Yanzhen Chen, Oscar Hernan Madrid Padilla. *Non-parametric interpretable score based estimation of heterogeneous treatment effects.* **2021+.**
+Steven Siwei Ye, Yanzhen Chen, Oscar Hernan Madrid Padilla. *Non-parametric interpretable score based estimation of heterogeneous treatment effects.* **2021.**
 
 # Methods
 *  our proposed score-based method: low-dimensional data estimation and high-dimensional data estimation
@@ -9,4 +9,4 @@ Steven Siwei Ye, Yanzhen Chen, Oscar Hernan Madrid Padilla. *Non-parametric inte
 
 # Datasets
 *  NMES Data
-*  
+*  NHANES data is available in R "ATE" package.
