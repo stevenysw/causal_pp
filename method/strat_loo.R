@@ -3,11 +3,12 @@
 ## X: covariates
 ## y: outcome variable
 ## z: treatment indicator
+## K: number of subgroups
 
 # Outputs:
 ## tau: estimation of treatment effects
 
-strat_loo <- function(X, y, z){
+strat_loo <- function(X, y, z, K){
   n = length(y)
   control = which(z == 0)
   treatment = which(z == 1)
@@ -24,12 +25,12 @@ strat_loo <- function(X, y, z){
     p_hat[control[j]] = drop(c(1, X[control,][j,]) %*% coef)
   }
   
-  itv = c(min(p_hat)-1, quantile(p_hat, c(1/3, 2/3)), max(p_hat) + 1)
+  itv = c(min(p_hat)-1, quantile(p_hat, (1:(K-1))/K), max(p_hat) + 1)
   
   group = as.numeric(cut(p_hat, itv))
   
-  tau_group = rep(0, 3)
-  for (i in 1:3){
+  tau_group = rep(0, K)
+  for (i in 1:K){
     tau_group[i] = sum(y[group == i & z == 1]) / sum(as.numeric(group == i & z == 1)) - sum(y[group == i & z == 0]) / sum(as.numeric(group == i & z == 0))
   }
   
