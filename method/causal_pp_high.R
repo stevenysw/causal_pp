@@ -3,7 +3,7 @@
 ## X: covariates
 ## y: outcome variable
 ## z: treatment indicator
-# K: number of nearest neighbors
+## K: number of nearest neighbors
 # Outputs:
 ## tau: estimation of treatment effects
 ## beta_e: coefficient vector for estimating propensity scores
