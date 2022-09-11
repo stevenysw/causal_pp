@@ -202,9 +202,6 @@ mse_st = rep(0, N)
 mse_cf = rep(0, N)
 
 for (j in 1:N){
-  beta_e = runif(d, -1, 1)
-  beta_p = runif(d, -1, 1)
-
   X = matrix(rnorm(n*d), n, d)
   z = rep(0, n)
   z[sample(n, n/2)] = 1
@@ -233,10 +230,146 @@ boxplot(mse_ca, mse_st, mse_cf,
         ylab = "MSE", main = "Scenario 4, d = 10, n = 5000")
 
 # simulation 5
+n = 5000 ## sample size
+d = 10 ## ambient dimension
+N = 1000 ## number of repetitions
 
+set.seed(123)
+mse_ca = rep(0, N)
+mse_st = rep(0, N)
+mse_cf = rep(0, N)
+
+tau0 = rep(0, n)
+
+for (j in 1:N){
+  X = matrix(runif(n*d), n, d)
+  
+  p = 2 * X[,1] - 1
+  e = 0.25 * (1 + dbeta(X[,1], 2, 4))
+  z = rbinom(rep(1,n), rep(1,n), prob = e)
+  
+  y = p + tau0 * z + rnorm(n, mean = 0, sd = 1)
+  
+  ## causal pp estimation
+  tau_cart = causal_pp(X,y,z, round(log(n)))
+  tau_ca = tau_cart$tau
+  mse_ca[j] = mean((tau_ca - tau0)^2)
+  
+  ## endogenous stratification
+  tau_st = strat_loo(X, y, z)
+  mse_st[j] = mean((tau_st - tau0)^2)
+  
+  ## causal forests
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  pred = predict(tau_forest)
+  tau_cf = pred$predictions
+  mse_cf[j] = mean((tau_cf - tau0)^2)
+}
+
+## plot of comparison
+boxplot(mse_ca, mse_st, mse_cf, 
+        names = c("PP", "ST", "CF"), 
+        ylab = "MSE", main = "Scenario 5, d = 10, n = 5000")
 
 # simulation 6
+n = 5000 ## sample size
+d = 10 ## ambient dimension
+N = 1000 ## number of repetitions
+
+set.seed(123)
+mse_ca = rep(0, N)
+mse_st = rep(0, N)
+mse_cf = rep(0, N)
+
+for (j in 1:N){
+  X = matrix(runif(n*d), n, d)
+  
+  beta_e = runif(d, -1, 1)
+  beta_p = runif(d, -1, 1)
+  
+  ## propsensity score
+  temp = drop(X %*% beta_e)
+  e = exp(temp) / (1 + exp(temp))
+  z = rbinom(rep(1,n), rep(1,n), prob = e)
+  
+  ## prognostic score
+  p = drop(X %*% beta_p)
+  
+  ## treatment effect
+  tau0 = (1 + 1 / (1 + exp(-20*(e-1/3)))) * (1 + 1 / (1 + exp(-20*(p-1/3))))
+  
+  y = p + tau0 * z + rnorm(n, mean = 0, sd = 1)
+
+  ## causal pp estimation
+  tau_cart = causal_pp(X,y,z, round(log(n)))
+  tau_ca = tau_cart$tau
+  mse_ca[j] = mean((tau_ca - tau0)^2)
+  
+  ## endogenous stratification
+  tau_st = strat_loo(X, y, z)
+  mse_st[j] = mean((tau_st - tau0)^2)
+  
+  ## causal forests
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  pred = predict(tau_forest)
+  tau_cf = pred$predictions
+  mse_cf[j] = mean((tau_cf - tau0)^2)
+}
+
+## plot of comparison
+boxplot(mse_ca, mse_st, mse_cf, 
+        names = c("PP", "ST", "CF"), 
+        ylab = "MSE", main = "Scenario 6, d = 10, n = 5000")
 
 # simulation 7
+n = 3000 ## sample size
+d = 5000 ## ambient dimension
+N = 1000 ## number of repetitions
 
+set.seed(123)
+mse_ca = rep(0, N)
+mse_st = rep(0, N)
+mse_cf = rep(0, N)
+
+beta_e = c(0.4, 0.9, -0.4, -0.7, -0.3, 0.6, rep(0, d - 6))
+beta_p = c(0.9, -0.9, 0.2, -0.2, 0.9, -0.9, rep(0, d - 6))
+
+for (j in 1:N){
+  X = matrix(runif(n*d), n, d)
+  
+  ## treatment indicators
+  temp = drop(X %*% beta_e)
+   
+  ## propensity score
+  e = exp(temp) / (1 + exp(temp))
+  z = rbinom(rep(1,n), rep(1,n), prob = e)
+ 
+  ## prognostic score
+  p = drop(X %*% beta_p)
+
+  ## response
+  tau0 = as.numeric(e < 0.6 & p < 0)
+  
+  y = p + tau0 * z + rnorm(n, mean = 0, sd = 1)
+
+  ## causal pp estimation
+  tau_cart = causal_pp(X,y,z, round(log(n)))
+  tau_ca = tau_cart$tau
+  mse_ca[j] = mean((tau_ca - tau0)^2)
+  
+  ## endogenous stratification
+  tau_st = strat_loo(X, y, z)
+  mse_st[j] = mean((tau_st - tau0)^2)
+  
+  ## causal forests
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  pred = predict(tau_forest)
+  tau_cf = pred$predictions
+  mse_cf[j] = mean((tau_cf - tau0)^2)
+}
+
+## plot of comparison
+boxplot(mse_ca, mse_st, mse_cf, 
+        names = c("PP", "ST", "CF"), 
+        ylab = "MSE", main = "Scenario 7, d = 5000, n = 3000")
 
