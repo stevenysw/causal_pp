@@ -10,6 +10,8 @@
 ## beta_p: coefficient vector for estimating prognostic scores
 ## model: prediction model
 
+require(MatchIt)
+
 causal_pp <- function(X, y, z, K){
   n = length(y)
   
@@ -26,24 +28,20 @@ causal_pp <- function(X, y, z, K){
   beta_hat_p = temp$coefficients
   p_hat = drop(cbind(rep(1, n), X) %*% beta_hat_p)
   
+  ## knn mahalanobis distance match
   y_match = rep(0, n)
-  scores = cbind(e_hat, p_hat)
+
+  match_temp_1 = matchit(z ~ e_hat + p_hat, method = "nearest", ratio = K, distance = "mahalanobis", replace = T)
+  match_temp_2 = matchit(1 - z ~ e_hat + p_hat, method = "nearest", ratio = K, distance = "mahalanobis", replace = T)
+  idx_mat = rbind(match_temp_1$match.matrix, match_temp_2$match.matrix)
+  idx_mat = idx_mat[order(as.numeric(rownames(idx_mat))),]
   
   for(i in 1:n){
-    if (z[i] == 1){
-      temp = get.knnx(scores[control,], as.data.frame(t(scores[i,])), k = K)
-      match_idx = temp$nn.index
-      y_match[i] = mean(y[control][match_idx])
-    }
-    if (z[i] == 0){
-      temp = get.knnx(scores[treatment,], as.data.frame(t(scores[i,])), k = K)
-      match_idx = temp$nn.index
-      y_match[i] = mean(y[treatment][match_idx])
-    }
+    y_match[i] = mean(y[as.numeric(idx_mat[i,])])
   }
-  
+   
   ytilde = (y - y_match)*(2*z-1)
-  
+
   cart_mod = rpart(ytilde ~ e_hat + p_hat)
   tau_final = predict(cart_mod)
   
