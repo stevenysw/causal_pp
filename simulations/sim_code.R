@@ -524,6 +524,7 @@ y = mydata$Y
 rpart.plot(tau_cart$model)
            
 # nmes
+## preprocess the data
 smoke <- read.csv("nmesdata.txt", header = T)
 smoke <- subset(smoke, TOTALEXP > 0)
 smoke <- subset(smoke, select = c(TOTALEXP, packyears, LASTAGE, AGESMOKE,
