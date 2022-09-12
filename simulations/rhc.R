@@ -145,5 +145,5 @@ X = as.matrix(mydata[,2:73])
 z = mydata$treat
 y = mydata$Y
            
-tau_ca_support = tau_cart$tau
+tau_ca = tau_cart$tau
 rpart.plot(tau_cart$model)
