@@ -11,6 +11,5 @@ X = as.matrix(smoke[,-c(1,2)])
 y = log(smoke$TOTALEXP)
 z = as.numeric(smoke$packyears > 17)
 
-tau_cart = pp_cart(X,y,z,round(log(length(smoke)))
 tau_ca_smoke = tau_cart$tau
 rpart.plot(tau_cart$model)
