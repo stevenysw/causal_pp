@@ -7,10 +7,6 @@ Steven Siwei Ye, Yanzhen Chen, Oscar Hernan Madrid Padilla. *"2D score based est
 *  propensity-score matching (PSM)
 *  prognostic-score matching
 
-# Datasets
-*  NMES Data
-*  NHANES data is available in R "ATE" package.
-
 # Codes
-*  simulation
-*  real-data analysis
+*  simulation experiments (Scenarios 1-7)
+*  bootstrap simulations
