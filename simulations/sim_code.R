@@ -5,6 +5,9 @@ n = 1000 ## sample size
 d = 50 ## ambient dimension
 N = 1000 ## number of repetitions
 
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
+
 set.seed(123)
 mse_ca = rep(0, N)
 mse_st = rep(0, N)
@@ -41,7 +44,9 @@ for (j in 1:N){
   mse_st[j] = mean((tau_st - tau0)^2)
   
   ## causal forests
-  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all",
+                             clusters = folds, 
+                             equalize.cluster.weights = TRUE)
   pred = predict(tau_forest)
   tau_cf = pred$predictions
   mse_cf[j] = mean((tau_cf - tau0)^2)
@@ -56,6 +61,9 @@ boxplot(mse_ca, mse_st, mse_cf,
 n = 5000 ## sample size
 d = 10 ## ambient dimension
 N = 1000 ## number of repetitions
+
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
 
 set.seed(123)
 mse_ca = rep(0, N)
@@ -135,6 +143,9 @@ n = 5000 ## sample size
 d = 10 ## ambient dimension
 N = 1000 ## number of repetitions
 
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
+
 set.seed(123)
 mse_ca = rep(0, N)
 mse_st = rep(0, N)
@@ -196,6 +207,9 @@ n = 5000 ## sample size
 d = 10 ## ambient dimension
 N = 1000 ## number of repetitions
 
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
+
 set.seed(123)
 mse_ca = rep(0, N)
 mse_st = rep(0, N)
@@ -233,6 +247,9 @@ boxplot(mse_ca, mse_st, mse_cf,
 n = 5000 ## sample size
 d = 10 ## ambient dimension
 N = 1000 ## number of repetitions
+
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
 
 set.seed(123)
 mse_ca = rep(0, N)
@@ -275,6 +292,9 @@ boxplot(mse_ca, mse_st, mse_cf,
 n = 5000 ## sample size
 d = 10 ## ambient dimension
 N = 1000 ## number of repetitions
+
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
 
 set.seed(123)
 mse_ca = rep(0, N)
@@ -325,6 +345,9 @@ boxplot(mse_ca, mse_st, mse_cf,
 n = 3000 ## sample size
 d = 5000 ## ambient dimension
 N = 1000 ## number of repetitions
+
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
 
 set.seed(123)
 mse_ca = rep(0, N)
@@ -378,6 +401,9 @@ boxplot(mse_ca, mse_st, mse_cf,
 set.seed(1)
 n = 5000
 d = 10
+
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
 
 beta_e = runif(d, -1, 1)
 beta_p = runif(d, -1, 1)
@@ -437,6 +463,9 @@ mean(tau0 >= ci_mat[,5] & tau0 <= ci_mat[,6])
 ## Scenario 2
 n = 5000
 d = 10
+
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
 
 beta_e = runif(d, -1, 1)
 beta_p = runif(d, -1, 1)
@@ -519,6 +548,9 @@ mean(tau0 >= ci_mat[,5] & tau0 <= ci_mat[,6])
 n = 5000
 d = 10
 
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
+
 beta_e = runif(d, -1, 1)
 beta_p = runif(d, -1, 1)
   
@@ -584,6 +616,9 @@ mean(tau0 >= ci_mat[,5] & tau0 <= ci_mat[,6])
 n = 5000
 d = 10
 
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
+
 beta = rep(1, d)
 tau0 = rep(0, n)
 X = matrix(rnorm(n*d), n, d)
@@ -631,6 +666,9 @@ mean(tau0 >= ci_mat[,5] & tau0 <= ci_mat[,6])
 ## Scenario 5
 n = 5000
 d = 10
+
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
 
 X = matrix(runif(n*d), n, d)
   
@@ -681,6 +719,9 @@ mean(tau0 >= ci_mat[,5] & tau0 <= ci_mat[,6])
 n = 1000
 d = 10
 
+num.folds <- 10
+folds <- sort(seq(n) %% num.folds) + 1
+
 X = matrix(runif(n*d), n, d)
   
 beta_e = runif(d, -1, 1)
@@ -729,5 +770,3 @@ for (j in 1:n){
 mean(tau0 >= ci_mat[,1] & tau0 <= ci_mat[,2])
 mean(tau0 >= ci_mat[,3] & tau0 <= ci_mat[,4])
 mean(tau0 >= ci_mat[,5] & tau0 <= ci_mat[,6])
-
-
