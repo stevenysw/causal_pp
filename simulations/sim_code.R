@@ -44,9 +44,7 @@ for (j in 1:N){
   mse_st[j] = mean((tau_st - tau0)^2)
   
   ## causal forests
-  tau_forest = causal_forest(X, y, z, tune.parameters = "all",
-                             clusters = folds, 
-                             equalize.cluster.weights = TRUE)
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
   pred = predict(tau_forest)
   tau_cf = pred$predictions
   mse_cf[j] = mean((tau_cf - tau0)^2)
@@ -127,7 +125,7 @@ for (j in 1:N){
   mse_st[j] = mean((tau_st - tau0)^2)
   
   ## causal forests
-  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
   pred = predict(tau_forest)
   tau_cf = pred$predictions
   mse_cf[j] = mean((tau_cf - tau0)^2)
@@ -191,7 +189,7 @@ for (j in 1:N){
   mse_st[j] = mean((tau_st - tau0)^2)
   
   ## causal forests
-  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
   pred = predict(tau_forest)
   tau_cf = pred$predictions
   mse_cf[j] = mean((tau_cf - tau0)^2)
@@ -232,7 +230,7 @@ for (j in 1:N){
   mse_st[j] = mean((tau_st - tau0)^2)
   
   ## causal forests
-  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
   pred = predict(tau_forest)
   tau_cf = pred$predictions
   mse_cf[j] = mean((tau_cf - tau0)^2)
@@ -277,7 +275,7 @@ for (j in 1:N){
   mse_st[j] = mean((tau_st - tau0)^2)
   
   ## causal forests
-  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
   pred = predict(tau_forest)
   tau_cf = pred$predictions
   mse_cf[j] = mean((tau_cf - tau0)^2)
@@ -330,7 +328,7 @@ for (j in 1:N){
   mse_st[j] = mean((tau_st - tau0)^2)
   
   ## causal forests
-  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
   pred = predict(tau_forest)
   tau_cf = pred$predictions
   mse_cf[j] = mean((tau_cf - tau0)^2)
@@ -385,7 +383,7 @@ for (j in 1:N){
   mse_st[j] = mean((tau_st - tau0)^2)
   
   ## causal forests
-  tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+  tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
   pred = predict(tau_forest)
   tau_cf = pred$predictions
   mse_cf[j] = mean((tau_cf - tau0)^2)
@@ -443,7 +441,7 @@ for (i in 1:B){
   pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
 }
 
-tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
 pred = predict(tau_forest, X, estimate.variance = T)
 
 ci_mat = matrix(0, nrow = n, ncol = 7)
@@ -528,7 +526,7 @@ for (i in 1:B){
   pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
 }
 
-tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
 pred = predict(tau_forest, X, estimate.variance = T)
 ci_mat = matrix(0, nrow = n, ncol = 7)
 ci_mat[,5] = pred$predictions - 1.96 * sqrt(pred$variance.estimates)
@@ -595,7 +593,7 @@ for (i in 1:B){
   pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
 }
 
-tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
 pred = predict(tau_forest, X, estimate.variance = T)
 
 ci_mat = matrix(0, nrow = n, ncol = 7)
@@ -646,7 +644,7 @@ for (i in 1:B){
   pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
 }
 
-tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
 pred = predict(tau_forest, X, estimate.variance = T)
 
 ci_mat = matrix(0, nrow = n, ncol = 7)
@@ -698,7 +696,7 @@ for (i in 1:B){
   pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
 }
 
-tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
 pred = predict(tau_forest, X, estimate.variance = T)
 
 ci_mat = matrix(0, nrow = n, ncol = 7)
@@ -754,7 +752,7 @@ for (i in 1:B){
   pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
 }
 
-tau_forest = causal_forest(X, y, z, tune.parameters = "all")
+tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
 pred = predict(tau_forest, X, estimate.variance = T)
 
 ci_mat = matrix(0, nrow = n, ncol = 7)
