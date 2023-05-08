@@ -513,7 +513,7 @@ for (j in 1:N){
   mse_ca[j] = mean((tau_ca - tau0_test)^2)
   
   ## endogenous stratification
-  tau_end = strat_loo(X_train, y_train, z_train, 3)
+  tau_end = strat_loo_high(X_train, y_train, z_train, 3)
   beta_p_test = as.vector(tau_end$beta_p)
   p_hat = drop(cbind(1,X_test) %*% beta_p_test)
   group = as.numeric(cut(p_hat, tau_end$itv))
