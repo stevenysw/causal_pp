@@ -7,6 +7,9 @@
 
 # Outputs:
 ## tau: estimation of treatment effects
+## tau_itv: treatment effects of each subgroup
+## beta_p: coefficient vector for estimating prognostic scores
+## interval: cut-offs on prognostic scores for subgroup
 
 strat_loo <- function(X, y, z, K){
   n = length(y)
@@ -28,6 +31,7 @@ strat_loo <- function(X, y, z, K){
   itv = c(min(p_hat)-1, quantile(p_hat, (1:(K-1))/K), max(p_hat) + 1)
   
   group = as.numeric(cut(p_hat, itv))
+  p_hat[treatment] = drop(cbind(rep(1, length(treatment)), X[treatment,]) %*% beta_hat_p)
   
   tau_group = rep(0, K)
   for (i in 1:K){
@@ -35,5 +39,5 @@ strat_loo <- function(X, y, z, K){
   }
   
   tau = tau_group[group]
-  return(tau)
+  return(list(tau = tau_group[group], tau_itv = tau_group, beta_p = beta_hat_p, interval = itv))
 }
