@@ -1,0 +1,46 @@
+# endogenous stratification - leave-one-out
+# Inputs:
+## X: covariates
+## y: outcome variable
+## z: treatment indicator
+## K: number of subgroups
+
+# Outputs:
+## tau: estimation of treatment effects
+## tau_itv: treatment effects of each subgroup
+## beta_p: coefficient vector for estimating prognostic scores
+## interval: cut-offs on prognostic scores for subgroup
+
+strat_loo_high <- function(X, y, z, K){
+  n = length(y)
+  control = which(z == 0)
+  treatment = which(z == 1)
+  
+  ## estimated prognostic score
+  X_con = X[control,]
+  y_con = y[control]
+  cv_model <- cv.glmnet(X_con, y_con, alpha = 1)
+  best_lambda <- cv_model$lambda.min
+  temp = glmnet(X_con, y_con, alpha = 1, lambda = best_lambda)
+  beta_hat_p = coef(temp)
+  p_hat = drop(cbind(rep(1, n), X) %*% beta_hat_p)
+  
+  for (j in 1:length(control)){
+    temp = lm(y[control][-j] ~ X[control,][-j,])
+    coef = temp$coefficients
+    p_hat[control[j]] = drop(c(1, X[control,][j,]) %*% coef)
+  }
+  
+  itv = c(min(p_hat)-1, quantile(p_hat, (1:(K-1))/K), max(p_hat) + 1)
+  
+  group = as.numeric(cut(p_hat, itv))
+  p_hat[treatment] = drop(cbind(rep(1, length(treatment)), X[treatment,]) %*% beta_hat_p)
+  
+  tau_group = rep(0, K)
+  for (i in 1:K){
+    tau_group[i] = sum(y[group == i & z == 1]) / sum(as.numeric(group == i & z == 1)) - sum(y[group == i & z == 0]) / sum(as.numeric(group == i & z == 0))
+  }
+  
+  tau = tau_group[group]
+  return(list(tau = tau, tau_itv = tau_group, beta_p = beta_hat_p, interval = itv))
+}
