@@ -53,7 +53,7 @@ for (j in 1:N){
   tau_end = strat_loo(X_train, y_train, z_train, 3)
   beta_p_test = as.vector(tau_end$beta_p)
   p_hat = drop(cbind(1,X_test) %*% beta_p_test)
-  group = as.numeric(cut(p_hat, tau_end$itv))
+  group = as.numeric(cut(p_hat, tau_end$interval))
   tau_st = tau_end$tau_itv[group]
   mse_st[j] = mean((tau_st - tau0_test)^2)
   
@@ -177,7 +177,7 @@ for (j in 1:N){
   tau_end = strat_loo(X_train, y_train, z_train, 3)
   beta_p_test = as.vector(tau_end$beta_p)
   p_hat = drop(cbind(1,X_test) %*% beta_p_test)
-  group = as.numeric(cut(p_hat, tau_end$itv))
+  group = as.numeric(cut(p_hat, tau_end$interval))
   tau_st = tau_end$tau_itv[group]
   mse_st[j] = mean((tau_st - tau0_test)^2)
   
@@ -262,7 +262,7 @@ for (j in 1:N){
   tau_end = strat_loo(X_train, y_train, z_train, 3)
   beta_p_test = as.vector(tau_end$beta_p)
   p_hat = drop(cbind(1,X_test) %*% beta_p_test)
-  group = as.numeric(cut(p_hat, tau_end$itv))
+  group = as.numeric(cut(p_hat, tau_end$interval))
   tau_st = tau_end$tau_itv[group]
   mse_st[j] = mean((tau_st - tau0_test)^2)
   
@@ -318,7 +318,7 @@ for (j in 1:N){
   tau_end = strat_loo(X_train, y_train, z_train, 3)
   beta_p_test = as.vector(tau_end$beta_p)
   p_hat = drop(cbind(1,X_test) %*% beta_p_test)
-  group = as.numeric(cut(p_hat, tau_end$itv))
+  group = as.numeric(cut(p_hat, tau_end$interval))
   tau_st = tau_end$tau_itv[group]
   mse_st[j] = mean((tau_st - tau0_test)^2)
   
@@ -378,7 +378,7 @@ for (j in 1:N){
   tau_end = strat_loo(X_train, y_train, z_train, 3)
   beta_p_test = as.vector(tau_end$beta_p)
   p_hat = drop(cbind(1,X_test) %*% beta_p_test)
-  group = as.numeric(cut(p_hat, tau_end$itv))
+  group = as.numeric(cut(p_hat, tau_end$interval))
   tau_st = tau_end$tau_itv[group]
   mse_st[j] = mean((tau_st - tau0_test)^2)
   
@@ -447,7 +447,7 @@ for (j in 1:N){
   tau_end = strat_loo(X_train, y_train, z_train, 3)
   beta_p_test = as.vector(tau_end$beta_p)
   p_hat = drop(cbind(1,X_test) %*% beta_p_test)
-  group = as.numeric(cut(p_hat, tau_end$itv))
+  group = as.numeric(cut(p_hat, tau_end$interval))
   tau_st = tau_end$tau_itv[group]
   mse_st[j] = mean((tau_st - tau0_test)^2)
   
@@ -516,7 +516,7 @@ for (j in 1:N){
   tau_end = strat_loo_high(X_train, y_train, z_train, 3)
   beta_p_test = as.vector(tau_end$beta_p)
   p_hat = drop(cbind(1,X_test) %*% beta_p_test)
-  group = as.numeric(cut(p_hat, tau_end$itv))
+  group = as.numeric(cut(p_hat, tau_end$interval))
   tau_st = tau_end$tau_itv[group]
   mse_st[j] = mean((tau_st - tau0_test)^2)
   
