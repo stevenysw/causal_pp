@@ -39,5 +39,5 @@ strat_loo <- function(X, y, z, K){
   }
   
   tau = tau_group[group]
-  return(list(tau = tau_group[group], tau_itv = tau_group, beta_p = beta_hat_p, interval = itv))
+  return(list(tau = tau, tau_itv = tau_group, beta_p = beta_hat_p, interval = itv))
 }
