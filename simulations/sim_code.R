@@ -284,6 +284,7 @@ n_test = round(n_train / 10) ## test sample size
 d = 10 ## ambient dimension
 N = 1000 ## number of repetitions
 
+beta = rep(1, d)
 tau0_train = rep(0, n_train)
 tau0_test = rep(0, n_test)
 
