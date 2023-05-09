@@ -431,7 +431,7 @@ for (j in 1:N){
   tau0_train = (1 + 1 / (1 + exp(-20*(e_train-1/3)))) * (1 + 1 / (1 + exp(-20*(p_train-1/3))))
   tau0_test = (1 + 1 / (1 + exp(-20*(e_test-1/3)))) * (1 + 1 / (1 + exp(-20*(p_test-1/3))))
   
-  y = p + tau0 * z + rnorm(n, mean = 0, sd = 1)
+  y_train = p_train + tau0_train * z_train + rnorm(n_train, mean = 0, sd = 1)
   
   ## causal pp estimation
   tau_cart = causal_pp(X_train, y_train, z_train, round(log(n_train)))
