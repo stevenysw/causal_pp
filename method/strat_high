@@ -25,12 +25,6 @@ strat_loo_high <- function(X, y, z, K){
   beta_hat_p = coef(temp)
   p_hat = drop(cbind(rep(1, n), X) %*% beta_hat_p)
   
-  for (j in 1:length(control)){
-    temp = lm(y[control][-j] ~ X[control,][-j,])
-    coef = temp$coefficients
-    p_hat[control[j]] = drop(c(1, X[control,][j,]) %*% coef)
-  }
-  
   itv = c(min(p_hat)-1, quantile(p_hat, (1:(K-1))/K), max(p_hat) + 1)
   
   group = as.numeric(cut(p_hat, itv))
