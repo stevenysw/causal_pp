@@ -341,9 +341,6 @@ n_test = round(n_train / 10) ## test sample size
 d = 10 ## ambient dimension
 N = 1000 ## number of repetitions
 
-tau0_train = rep(0, n_train)
-tau0_test = rep(0, n_test)
-
 num.folds <- 10
 folds <- sort(seq(n_train) %% num.folds) + 1
 
@@ -361,6 +358,9 @@ for (j in 1:N){
   e_train = 0.25 * (1 + dbeta(X_train[,1], 2, 4))
   e_test = 0.25 * (1 + dbeta(X_test[,1], 2, 4))
   z_train = rbinom(rep(1,n_train), rep(1,n_train), prob = e_train)
+  
+  tau0_train = rowSums(X_train) / 10
+  tau0_test = rowSums(X_test) / 10
   
   y_train = p_train + tau0_train * z_train + rnorm(n_train, mean = 0, sd = 1)
   
@@ -577,7 +577,7 @@ for (i in 1:B){
   
   tau_boot = causal_pp(X_sample, y_sample, z_sample, round(log(n)))
   pred_pp[,i] = tau_boot$tau
-  pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
+  pred_st[,i] = strat_loo(X_sample, y_sample, z_sample, 3)
 }
 
 tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
@@ -662,7 +662,7 @@ for (i in 1:B){
   
   tau_boot = causal_pp(X_sample, y_sample, z_sample, round(log(n)))
   pred_pp[,i] = tau_boot$tau
-  pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
+  pred_st[,i] = strat_loo(X_sample, y_sample, z_sample, 3)
 }
 
 tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
@@ -729,7 +729,7 @@ for (i in 1:B){
   
   tau_boot = causal_pp(X_sample, y_sample, z_sample, round(log(n)))
   pred_pp[,i] = tau_boot$tau
-  pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
+  pred_st[,i] = strat_loo(X_sample, y_sample, z_sample, 3)
 }
 
 tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
@@ -780,7 +780,7 @@ for (i in 1:B){
   
   tau_boot = causal_pp(X_sample, y_sample, z_sample, round(log(n)))
   pred_pp[,i] = tau_boot$tau
-  pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
+  pred_st[,i] = strat_loo(X_sample, y_sample, z_sample, 3)
 }
 
 tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
@@ -813,6 +813,7 @@ tau0 = rep(0, n)
 p = 2 * X[,1] - 1
 e = 0.25 * (1 + dbeta(X[,1], 2, 4))
 z = rbinom(rep(1,n), rep(1,n), prob = e)
+tau0 = rowSums(X) / 10
 
 y = p + tau0 * z + rnorm(n, mean = 0, sd = 1)
 
@@ -832,7 +833,7 @@ for (i in 1:B){
   
   tau_boot = causal_pp(X_sample, y_sample, z_sample, round(log(n)))
   pred_pp[,i] = tau_boot$tau
-  pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
+  pred_st[,i] = strat_loo(X_sample, y_sample, z_sample, 3)
 }
 
 tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
@@ -888,7 +889,7 @@ for (i in 1:B){
   
   tau_boot = causal_pp(X_sample, y_sample, z_sample, round(log(n)))
   pred_pp[,i] = tau_boot$tau
-  pred_st[,i] = strat_full(X_sample, y_sample, z_sample)
+  pred_st[,i] = strat_loo(X_sample, y_sample, z_sample, 3)
 }
 
 tau_forest = causal_forest(X, y, z, tune.parameters = "all", clusters = folds, equalize.cluster.weights = TRUE)
