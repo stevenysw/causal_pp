@@ -1,12 +1,11 @@
 # Citation
-Steven Siwei Ye, Yanzhen Chen, Oscar Hernan Madrid Padilla. *"2D score based estimation of heterogeneous treatment effects."* **arXiv: 2110.02401 2021.**
+Steven Siwei Ye, Yanzhen Chen, Oscar Hernan Madrid Padilla. *"Causal Effect Estimation via Graph Based Fused Lasso."* **In Progress.**
 
 # Methods
-*  our proposed score-based method: for both low-dimensional data estimation and high-dimensional data estimation
-*  endogeneous stratification
-*  propensity-score matching (PSM)
-*  prognostic-score matching
+*  causal graph fused lasso 
+*  causal graph fused lasso with BIC selection
+*  causal graph fused lasso with covariate estimation
 
 # Codes
-*  simulation experiments (Scenarios 1-7)
-*  bootstrap simulations
+*  simulation experiments 
+*  real data analysis
